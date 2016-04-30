@@ -12,7 +12,7 @@ Amazon::Ecs.configure do |options|
   options[:associate_tag]     = ENV['AMAZON_ASSOCIATE_TAG']
 end
 
-res = Amazon::Ecs.item_search('', {
+res = Amazon::Ecs.item_search('zerotoone', {
     :country  => 'jp',
 })
 
