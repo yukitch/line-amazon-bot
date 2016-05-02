@@ -21,6 +21,6 @@ class Response
 
       first = res.items.first
 
-      first.get('Title') + "\n" + ShortURL.shorten(first.get("DetailPageURL"))
+      first.get('ItemAttributes/Title') + "\n" + ShortURL.shorten(first.get("DetailPageURL"))
   end
 end
