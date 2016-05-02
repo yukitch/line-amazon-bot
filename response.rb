@@ -13,14 +13,20 @@ class Response
   end
 
   def search_amazon_book(word)
-      res = Amazon::Ecs.item_search(word, :country => 'jp')
+      res = Amazon::Ecs.item_search(word, {:country => 'jp', :response_group => 'Medium'})
 
       if res.total_pages == 0
-        return 'not found'
+        return 'お探しの書籍は見つかりませんでした。。'
       end
 
-      first = res.items.first
+      book = res.items.first
+      title = book.get('ItemAttributes/Title')
+      message = title + "\n" + book.get('MediumImage/URL') + "\n\n" + '通常版: ' + ShortURL.shorten(book.get("DetailPageURL"))
 
-      first.get('ItemAttributes/Title') + "\n" + ShortURL.shorten(first.get("DetailPageURL"))
+      res = Amazon::Ecs.item_search(title, {:country => 'jp', :search_index => 'KindleStore'})
+      if res.total_pages != 0
+        message += "\n" + 'kindle版: ' + ShortURL.shorten(res.items.first.get("DetailPageURL"))
+      end
+      message
   end
 end
