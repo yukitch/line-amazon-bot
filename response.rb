@@ -21,7 +21,7 @@ class Response
 
       book = res.items.first
       title = book.get('ItemAttributes/Title')
-      message = title + "\n" + book.get('MediumImage/URL') + "\n\n" + '通常版: ' + ShortURL.shorten(book.get("DetailPageURL"))
+      message = title + "\n\n" + '通常版: ' + ShortURL.shorten(book.get("DetailPageURL"))
 
       res = Amazon::Ecs.item_search(title, {:country => 'jp', :search_index => 'KindleStore'})
       if res.total_pages != 0
