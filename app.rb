@@ -6,12 +6,11 @@ require 'rest-client'
 require './response'
 
 class App < Sinatra::Base
-  get '/callback' do
+  post '/callback' do
     res = Response.new
 
     params = JSON.parse(request.body.read)
     params['result'].each do |msg|
-
       request_content = {
         to: [msg['content']['from']],
         toChannel: 1383378250, # Fixed  value
