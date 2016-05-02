@@ -3,7 +3,13 @@ source "https://rubygems.org"
 
 gem 'sinatra'
 gem 'rest-client'
+gem 'dotenv'
+
+#api client
 gem 'line-bot-api'
 gem 'amazon-ecs'
-gem 'dotenv'
-gem 'pry'
+gem 'shorturl'
+
+group :debug do
+  gem 'pry'
+end

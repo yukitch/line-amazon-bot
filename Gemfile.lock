@@ -30,6 +30,7 @@ GEM
       mime-types (>= 1.16, < 3.0)
       netrc (~> 0.7)
     ruby-hmac (0.4.0)
+    shorturl (1.0.0)
     sinatra (1.4.7)
       rack (~> 1.5)
       rack-protection (~> 1.4)
@@ -49,6 +50,7 @@ DEPENDENCIES
   line-bot-api
   pry
   rest-client
+  shorturl
   sinatra
 
 BUNDLED WITH

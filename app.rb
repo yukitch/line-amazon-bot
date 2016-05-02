@@ -3,29 +3,24 @@
 require 'sinatra/base'
 require 'json'
 require 'rest-client'
-require 'amazon/ecs'
+require 'pry'
+require './response'
 
 class App < Sinatra::Base
-  post '/callback' do
+  get '/callback' do
+    res = Response.new
+
     params = JSON.parse(request.body.read)
-    Amazon::Ecs.configure do |options|
-      options[:AWS_access_key_id] = ENV['AMAZON_ACCESS_KEY']
-      options[:AWS_secret_key]    = ENV['AMAZON_SECRET_KEY']
-      options[:associate_tag]     = ENV['AMAZON_ASSOCIATE_TAG']
-    end
-
     params['result'].each do |msg|
-
-     res = Amazon::Ecs.item_search(msg['content']['text'], :country => 'jp')
 
       request_content = {
         to: [msg['content']['from']],
         toChannel: 1383378250, # Fixed  value
-        eventType: "138311608800106203", # Fixed value
+        eventType: 138311608800106203, # Fixed value
         content: {
           contentType: 1,
           toType: 1,
-          text: res.items.first.get('DetailPageURL')
+          text: res.search_amazon_book(msg['content']['text'])
         }
       }
 
@@ -44,4 +39,3 @@ class App < Sinatra::Base
     "OK"
   end
 end
-
