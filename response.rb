@@ -1,18 +1,23 @@
 require 'amazon/ecs'
 require 'shorturl'
+require 'dotenv'
 
 class Response
   def initialize
+    Dotenv.load
     Amazon::Ecs.configure do |options|
       options[:AWS_access_key_id] = ENV['AMAZON_ACCESS_KEY']
       options[:AWS_secret_key]    = ENV['AMAZON_SECRET_KEY']
       options[:associate_tag]     = ENV['AMAZON_ASSOCIATE_TAG']
     end
-    @amz = Amazon::Ecs
   end
 
   def search_amazon_book(word)
-      res = @amz.item_search(word, :country => 'jp')
+      res = Amazon::Ecs.item_search(word, :country => 'jp')
+
+      if res.total_pages == 0
+        return 'not found'
+      end
 
       first = res.items.first
 

@@ -3,11 +3,12 @@
 require 'sinatra/base'
 require 'json'
 require 'rest-client'
-require 'pry'
 require './response'
+require 'dotenv'
 
 class App < Sinatra::Base
   get '/callback' do
+    Dotenv.load
     res = Response.new
 
     params = JSON.parse(request.body.read)
@@ -35,7 +36,6 @@ class App < Sinatra::Base
         'X-Line-Trusted-User-With-ACL' => ENV["LINE_CHANNEL_MID"],
       })
     end
-
     "OK"
   end
 end
